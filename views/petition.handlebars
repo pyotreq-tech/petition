@@ -1,0 +1,18 @@
+<h1>Welcome to my petition</h1>
+
+<p>Sign our petition to make the wearing of Crocs in public places a criminal act in every jurisdiction!</p>
+
+<form method="POST">
+    {{!-- Make the input fields receive only letters --}}
+    {{#if empty}}
+    <h1>Oops, something went wrong, please fill all the fields</h1>
+    {{/if}}
+    <label for ="firstName">First Name</label>
+    <input name="firstName">
+    <label for ="lastName">Last Name</label>
+    <input name="lastName">
+    <input name="signature" type="hidden">
+    <canvas id="canvas" width="400" height="100"></canvas>
+    <button>Submit</button>
+</form>
+
