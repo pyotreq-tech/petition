@@ -1,0 +1,20 @@
+<h1>Please log in</h1>
+
+{{#if empty}}
+<h1>Oops, something went wrong, please try again later</h1>
+{{/if}}
+
+<form method="POST">
+
+
+<label for ="emailAddress" type="email">Email Address</label>
+<input name="emailAddress">
+<label for ="password">Password</label>
+<input name="password" type="password">
+
+<button>Login</button>
+
+<h1>Don't have an account yet? <a href="/register">Register now</a></h1>
+
+
+</form>

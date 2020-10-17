@@ -5,3 +5,11 @@ canvas {
 button {
     display: block;
 }
+
+form {
+    display: inline-block;
+}
+
+#deleteButton {
+    background-color: firebrick;
+}

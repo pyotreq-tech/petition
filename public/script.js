@@ -1,7 +1,6 @@
 const canvasJQ = $("canvas");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const button = $("button");
 const signature = $('input[name="signature"]');
 
 // Canvas painting

@@ -2,7 +2,9 @@
 
 {{#rows}}
 <div>
-{{first}}, {{last}}, {{time}}
-
+{{first}} {{last}}
+{{#if ../user.admin}}
+<form id="delete-form" action="/signers/{{id}}?_method=DELETE" method="POST"><button id="deleteButton">X</button></form>
+{{/if}}
 </div>
 {{/rows}}
