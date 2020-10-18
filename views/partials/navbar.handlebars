@@ -1,7 +1,25 @@
-{{#if isLoggedIn}}
-logged as: {{user.firstName}}
-<a href="/logout">Logout</a>
-{{else}}
-<a href="/register">Register</a>
-<a href="/login">Login</a>
-{{/if}}
+<navbar>
+    <div class="container">
+        <div>
+
+            <a href="/petition" id="logo">
+                <span></i>DreamsComeTruePetition <i class="fas fa-star"></i></span>
+            </a>
+        </div>
+        <div>
+            {{#if isLoggedIn}}
+            <span class="navbar-font">Welcome {{user.firstName}} </span>
+            <a href="/logout" class="navbar-font"> <i class="fas fa-sign-out-alt"></i></a>
+            {{else}}
+            <a href="/login" class="navbar-font">Login</a>
+            <a href="/register" class="navbar-font">Register</a>
+            {{/if}}
+        </div>
+    </div>
+    <div class="error">
+        {{#if empty}}
+        <h1 class="error-font">{{empty}}</h1>
+        {{/if}}
+        
+    </div>
+</navbar>

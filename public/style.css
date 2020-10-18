@@ -1,3 +1,9 @@
+body {
+    box-sizing: border-box;
+    margin: 0;
+    height: 100vh;
+}
+
 canvas {
     border: 1px black solid;
     display: block;
@@ -12,4 +18,200 @@ form {
 
 #deleteButton {
     background-color: firebrick;
+}
+
+navbar > div.container {
+    display: flex;
+    /* width: 100%; */
+    height: 70px;
+    background-color: midnightblue;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 150px;
+    justify-content: space-between;
+}
+
+footer > div.container {
+    display: flex;
+    /* width: 100%; */
+    height: 40px;
+    background-color: midnightblue;
+    align-items: center;
+    flex-direction: row;
+    padding: 0 150px;
+    justify-content: space-between;
+}
+
+.register-container {
+    background-image: url("wallpaper2.jpg");
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.login-container {
+    background-image: url("wallpaper1.jpg");
+    background-size: cover;
+    height: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.login-div {
+    margin: 30px 150px;
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    /* height: 100%; */
+}
+.signed-container {
+    background-image: url("wallpaper3.jpg");
+    background-size: cover;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: row;
+}
+.signed-div {
+    background-color: rgba(255, 255, 255, 0.5);
+    margin: 30px 150px;
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+}
+.login-text {
+    margin-top: 100px;
+    margin-left: 150px;
+    width: 650px;
+    height: 400px;
+    background-color: rgba(255, 255, 255, 0.1);
+
+    /* height: 100%; */
+}
+
+.login-content {
+    font-weight: 300;
+    font-size: 1.8em;
+    font-family: "Roboto", sans-serif;
+    color: black;
+    margin: 50px;
+}
+.register-div {
+    margin: 30px 150px;
+    width: 450px;
+    /* display: flex;
+    flex-direction: column; */
+    /* height: 1200px; */
+}
+
+#logo {
+    font-weight: 900;
+    font-size: 2em;
+    font-family: "Roboto", sans-serif;
+    color: antiquewhite;
+    text-decoration: none;
+}
+
+.navbar-font {
+    font-family: "Roboto", sans-serif;
+    color: antiquewhite;
+    text-decoration: none;
+    font-size: 1.5em;
+    margin-left: 30px;
+}
+
+.form {
+    border: 1px solid black;
+    padding: 80px 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.form-register {
+    border: 1px solid black;
+    padding: 25px 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-font {
+    font-family: "Roboto", sans-serif;
+    color: antiquewhite;
+    text-decoration: none;
+    font-size: 1.7em;
+    font-weight: 100;
+}
+.form-font-black {
+    font-family: "Roboto", sans-serif;
+    color: black;
+    text-decoration: none;
+    font-size: 1.7em;
+    font-weight: 100;
+}
+.font-black-signed {
+    font-family: "Roboto", sans-serif;
+    color: black;
+    text-decoration: none;
+    font-size: 1.7em;
+    font-weight: 400;
+}
+
+.error {
+    padding: 0 150px;
+    background-color: #af2c3e;
+}
+
+.error-font {
+    font-family: "Roboto", sans-serif;
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 400;
+    text-align: right;
+    margin: 0;
+    padding: 5px 0;
+}
+
+.input-login {
+    margin-top: 5px;
+    margin-bottom: 25px;
+    width: 200px;
+}
+.input-register {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    width: 200px;
+}
+
+.button-login {
+    width: 100px;
+    height: 30px;
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+    font-weight: 100;
+    margin-bottom: 50px;
+}
+
+.link-login {
+    color: black;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+h1 {
+    padding-bottom: 30px;
+    margin: 0;
+}
+
+p {
+    text-align: center;
 }

@@ -1,25 +1,26 @@
-<h1>A world without Crocs is within reach but we won't get there without your support.
-    Join our campaign today!.
-</h1>
-
-{{#if empty}}
-<h1>Oops, something went wrong, please fill all the fields</h1>
-{{/if}}
+<div class="register-container">
+    <div class="register-div">
 
 
-<form method="POST">
+        <form method="POST" class="form-register form-font-black">
+        <h1>Get started
+        </h1>
 
-<label for ="firstName">First Name</label>
-<input name="firstName">
-<label for ="lastName">Last Name</label>
-<input name="lastName">
-<label for ="emailAddress" type="email">Email Address</label>
-<input name="emailAddress">
-<label for ="password">Password</label>
-<input name="password" type="password">
 
-<button>Submit</button>
 
-</form>
+        <label for ="firstName">First Name</label>
+        <input name="firstName" class="input-register">
+        <label for ="lastName">Last Name</label>
+        <input name="lastName" class="input-register">
+        <label for ="emailAddress" type="email">Email Address</label>
+        <input name="emailAddress" class="input-register">
+        <label for ="password">Password</label>
+        <input name="password" type="password" class="input-register">
 
-<p>If you are already a member, please <a href="/login">log in</a> .</p>
+        <button class="button-login">Submit</button>
+
+        <span>Already a member? <br><a href="/login" class="link-login">Sign up now</a></span>
+        </form>
+
+    </div>
+</div>

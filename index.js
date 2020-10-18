@@ -81,7 +81,7 @@ app.post("/login", (req, res) => {
                             });
                     } else {
                         res.render("login", {
-                            empty: true,
+                            empty: "Invalid login or password.",
                         });
                     }
                 })
@@ -92,7 +92,7 @@ app.post("/login", (req, res) => {
         .catch((err) => {
             console.log("Error in loging in: ", err);
             res.render("login", {
-                empty: true,
+                empty: "Invalid login or password.",
             });
         });
 });
@@ -104,6 +104,7 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
     const { firstName, lastName, emailAddress, password } = req.body;
     const time = new Date();
+    console.log(firstName, lastName, emailAddress, password);
     bcrypt
         .hash(password)
         .then((hash) => {
@@ -119,7 +120,7 @@ app.post("/register", (req, res) => {
                 })
                 .catch((err) => {
                     res.render("register", {
-                        empty: true,
+                        empty: "Please fill in all the fields.",
                     });
                     console.log("Error while creating a user: ", err);
                 });
