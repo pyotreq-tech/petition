@@ -1,15 +1,16 @@
-<h1>Welcome to my petition</h1>
+<div class="petition-container">
+    <div class="petition-div">
+        
+        <h1 class="font-black-signed">Make the dreams come true.</h1>
 
-<p>Sign our petition to make the wearing of Crocs in public places a criminal act in every jurisdiction!</p>
+        <p class="login-content">Sign our petition to make all the wishes in this universe to come true! Once and for good!</p>
 
-<form method="POST">
-    {{!-- Make the input fields receive only letters --}}
-    {{#if empty}}
-    <h1>Oops, something went wrong, please fill all the fields</h1>
-    {{/if}}
+        <form method="POST">
+        {{!-- Make the input fields receive only letters --}}
+        <input name="signature" type="hidden">
+        <canvas id="canvas" width="400" height="100"></canvas>
+        <button class="button-sign-petition">Sign petition</button>
+        </form>
 
-    <input name="signature" type="hidden">
-    <canvas id="canvas" width="400" height="100"></canvas>
-    <button>Submit</button>
-</form>
-
+    </div>
+</div>

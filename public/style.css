@@ -42,52 +42,93 @@ footer > div.container {
     justify-content: space-between;
 }
 
-.register-container {
-    background-image: url("wallpaper2.jpg");
-    background-size: cover;
-    height: 100vh;
-    display: flex;
-    flex-direction: row-reverse;
-}
-
 .login-container {
     background-image: url("wallpaper1.jpg");
+    background-attachment: fixed;
     background-size: cover;
     height: 100%;
     display: flex;
     flex-direction: row-reverse;
+    /* justify-content: space-between; */
 }
 .login-div {
-    margin: 30px 150px;
+    margin: 80px 150px;
     width: 450px;
     display: flex;
     flex-direction: column;
     /* height: 100%; */
 }
-.signed-container {
+
+.signers-container {
     background-image: url("wallpaper3.jpg");
+    background-attachment: fixed;
     background-size: cover;
     /* height: 100%; */
     display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+.signers-div {
+    margin: 30px 150px;
+    width: 550px;
+    padding-bottom: 30px;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    /* height: 100%; */
+    align-items: center;
+    justify-content: top;
+    /* height: 600px; */
+}
+
+.signed-container {
+    background-image: url("wallpaper3.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
     flex-direction: row;
+    justify-content: center;
+    height: 100%;
 }
 .signed-div {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 550px;
     margin: 30px 150px;
-    width: 450px;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 600px;
 }
-.login-text {
-    margin-top: 100px;
-    margin-left: 150px;
-    width: 650px;
-    height: 400px;
-    background-color: rgba(255, 255, 255, 0.1);
+.petition-container {
+    background-image: url("wallpaper3.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 100%;
+}
+.petition-div {
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 550px;
+    margin: 30px 150px;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+}
+
+.login-text {
+    margin-top: 130px;
+    margin-left: 150px;
+    /* margin-right: 60px; */
+    width: 700px;
+    height: 400px;
+    background-color: rgba(255, 255, 255, 0.2);
     /* height: 100%; */
 }
 
@@ -98,8 +139,26 @@ footer > div.container {
     color: black;
     margin: 50px;
 }
+.signers-content {
+    font-weight: 400;
+    font-size: 1.8em;
+    font-family: "Roboto", sans-serif;
+    color: black;
+    padding: 30px;
+    margin: 15;
+}
+
+.register-container {
+    background-image: url("wallpaper2.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 .register-div {
-    margin: 30px 150px;
+    margin: 80px 150px;
     width: 450px;
     /* display: flex;
     flex-direction: column; */
@@ -200,16 +259,33 @@ footer > div.container {
     font-weight: 100;
     margin-bottom: 50px;
 }
+.button-sign-petition {
+    width: 100px;
+    height: 30px;
+    font-family: "Roboto", sans-serif;
+    text-decoration: none;
+    font-weight: 100;
+    margin: 30px auto;
+}
 
 .link-login {
     color: black;
     text-decoration: none;
     font-weight: 400;
 }
+.list-item {
+    font-family: "Roboto", sans-serif;
+
+    color: black;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 1.4em;
+}
 
 h1 {
     padding-bottom: 30px;
     margin: 0;
+    text-align: center;
 }
 
 p {

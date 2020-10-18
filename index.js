@@ -158,6 +158,7 @@ app.get("/signed", signatureCheck, (req, res) => {
     db.getImageUrl(req.session.user.signatureId)
         .then((url) => {
             let imgUrl = url.rows[0].signature;
+            console.log(imgUrl);
             const { user } = req.session;
             db.countSignatures()
                 .then(({ rows }) => {
@@ -224,7 +225,7 @@ app.delete("/signers/:id", (req, res) => {
     const { id } = req.params;
     db.deleteSignature(id)
         .then(() => {
-            delete req.session.user.signatureId;
+            // delete req.session.user.signatureId;
             res.redirect("/signers");
         })
         .catch((err) => {
