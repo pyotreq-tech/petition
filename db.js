@@ -1,8 +1,16 @@
 var spicedPg = require("spiced-pg");
 var db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
 
+// module.exports.getSignatures = () => {
+//     return db.query(`SELECT * FROM signatures`);
+// };
+
 module.exports.getSignatures = () => {
-    return db.query(`SELECT * FROM signatures`);
+    return db.query(`SELECT users.first AS first, users.last AS last, signatures.id AS id
+    FROM users
+    JOIN signatures
+    ON users.id = signatures.userid;    
+    `);
 };
 
 module.exports.getImageUrl = (cookie) => {
