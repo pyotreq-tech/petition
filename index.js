@@ -161,20 +161,59 @@ app.get("/petition", (req, res) => {
     const { id } = req.session.user;
     const { user } = req.session;
 
-    if (!req.session.user.signatureId) {
-        db.getIfSignature(id).then(({ rows }) => {
-            if (rows.length === 0) {
-                res.render("petition", {
-                    isLoggedIn: true,
-                    user,
-                });
-            } else {
+    if (req.session.user.signatureId) {
+        res.redirect("/signed");
+    } else {
+        db.getIfSignature(id)
+            .then(({ rows }) => {
+                if (rows.length === 0) {
+                    res.render("petition", {
+                        isLoggedIn: true,
+                        user,
+                    });
+                } else {
+                    req.session.user.signatureId = rows[0].id;
+                    res.redirect("/signed");
+                }
+            })
+            .catch((err) => {
+                console.log(
+                    "error while getting signature id, can't check whether user signed or no: ",
+                    err
+                );
+                res.redirect("/logout");
+            });
+    }
+});
+
+app.post("/petition", (req, res) => {
+    const { signature } = req.body;
+    const { firstName, lastName, id } = req.session.user;
+    const { user } = req.session;
+    const time = new Date();
+
+    if (signature) {
+        db.addSignature(firstName, lastName, signature, time, id)
+            .then(({ rows }) => {
+                // setting cookie value
+                // we can add another values here and in routes use && operator to determine access to different places
                 req.session.user.signatureId = rows[0].id;
                 res.redirect("/signed");
-            }
-        });
+            })
+            .catch((err) => {
+                console.log("Error while adding a signature: ", err);
+                res.render("petition", {
+                    user,
+                    empty: "Internal database error while making a petition",
+                    isLoggedIn: true,
+                });
+            });
     } else {
-        res.redirect("/signed");
+        res.render("petition", {
+            user,
+            empty: "Please sign up the petition!",
+            isLoggedIn: true,
+        });
     }
 });
 
@@ -204,7 +243,8 @@ app.get("/signed", signatureCheck, (req, res) => {
                     });
             } else {
                 delete req.session.user.signatureId;
-                res.redirect("petition");
+                res.redirect("/petition");
+                console.log("pic deleted by admin");
             }
         })
         .catch((err) => {
@@ -233,36 +273,10 @@ app.get("/signers", signatureCheck, (req, res) => {
         });
 });
 
-app.post("/petition", (req, res) => {
-    const { signature } = req.body;
-    const { firstName, lastName, id } = req.session.user;
-    const time = new Date();
-
-    db.addSignature(firstName, lastName, signature, time, id)
-        .then(({ rows }) => {
-            // setting cookie value
-            // we can add another values here and in routes use && operator to determine access to different places
-            req.session.user.signatureId = rows[0].id;
-            //
-            res.redirect("/signed");
-        })
-        .catch((err) => {
-            const { user } = req.session;
-
-            console.log("Something went wrong: ", err);
-            res.render("petition", {
-                user,
-                empty: true,
-                isLoggedIn: true,
-            });
-        });
-});
-
 app.delete("/signers/:id", (req, res) => {
     const { id } = req.params;
     db.deleteSignature(id)
         .then(() => {
-            // delete req.session.user.signatureId;
             res.redirect("/signers");
         })
         .catch((err) => {
