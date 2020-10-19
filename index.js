@@ -56,7 +56,7 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
     const { emailAddress, password } = req.body;
     if (emailAddress && password) {
-        db.getUserPassword(emailAddress)
+        db.getUserData(emailAddress)
             .then(({ rows }) => {
                 if (rows.length !== 0) {
                     const hash = rows[0].password;
@@ -64,23 +64,14 @@ app.post("/login", (req, res) => {
                         .compare(password, hash)
                         .then((auth) => {
                             if (auth) {
-                                db.getUserData(emailAddress)
-                                    .then(({ rows }) => {
-                                        req.session.user = {
-                                            id: rows[0].id,
-                                            firstName: rows[0].first,
-                                            lastName: rows[0].last,
-                                            email: emailAddress,
-                                            admin: rows[0].admin,
-                                        };
-                                        res.redirect("/petition");
-                                    })
-                                    .catch((err) => {
-                                        console.log("error in sql: ", err);
-                                        res.render("login", {
-                                            empty: "Internal database error.",
-                                        });
-                                    });
+                                req.session.user = {
+                                    id: rows[0].id,
+                                    firstName: rows[0].first,
+                                    lastName: rows[0].last,
+                                    email: emailAddress,
+                                    admin: rows[0].admin,
+                                };
+                                res.redirect("/petition");
                             } else {
                                 res.render("login", {
                                     empty: "Invalid login or password.",
@@ -119,34 +110,51 @@ app.get("/register", (req, res) => {
 
 app.post("/register", (req, res) => {
     const { firstName, lastName, emailAddress, password } = req.body;
-    const time = new Date();
-
     if (firstName && lastName && emailAddress && password) {
-        bcrypt
-            .hash(password)
-            .then((hash) => {
-                db.addUser(firstName, lastName, emailAddress, hash, time)
-                    .then(({ rows }) => {
-                        req.session.user = {
-                            id: rows[0].id,
-                            firstName: firstName,
-                            lastName: lastName,
-                            email: emailAddress,
-                        };
-                        res.redirect("/petition");
-                    })
-                    .catch((err) => {
-                        res.render("register", {
-                            empty: "Error while adding users to the db.",
+        db.getUserData(emailAddress)
+            .then(({ rows }) => {
+                if (rows.length === 0) {
+                    bcrypt
+                        .hash(password)
+                        .then((hash) => {
+                            db.addUser(firstName, lastName, emailAddress, hash)
+                                .then(({ rows }) => {
+                                    req.session.user = {
+                                        id: rows[0].id,
+                                        firstName: firstName,
+                                        lastName: lastName,
+                                        email: emailAddress,
+                                    };
+                                    res.redirect("/petition");
+                                })
+                                .catch((err) => {
+                                    res.render("register", {
+                                        empty:
+                                            "Error while adding users to the db.",
+                                    });
+                                    console.log(
+                                        "Error while creating a user: ",
+                                        err
+                                    );
+                                });
+                        })
+                        .catch((err) => {
+                            res.render("register", {
+                                empty: "Something went wrong. Please try again",
+                            });
+                            console.log("Error while making a password: ", err);
                         });
-                        console.log("Error while creating a user: ", err);
+                } else {
+                    res.render("register", {
+                        empty: "E-mail already exists in database",
                     });
+                }
             })
             .catch((err) => {
                 res.render("register", {
-                    empty: "Something went wrong. Please try again",
+                    empty: "Error internal db request",
                 });
-                console.log("Error while making a password: ", err);
+                console.log("Error internal db request: ", err);
             });
     } else {
         res.render("register", {
@@ -188,12 +196,11 @@ app.get("/petition", (req, res) => {
 
 app.post("/petition", (req, res) => {
     const { signature } = req.body;
-    const { firstName, lastName, id } = req.session.user;
+    const { id } = req.session.user;
     const { user } = req.session;
-    const time = new Date();
 
     if (signature) {
-        db.addSignature(firstName, lastName, signature, time, id)
+        db.addSignature(signature, id)
             .then(({ rows }) => {
                 // setting cookie value
                 // we can add another values here and in routes use && operator to determine access to different places

@@ -18,28 +18,28 @@ exports.getUserData = (email) => {
     return db.query(`SELECT * FROM users WHERE email = '${email}' `);
 };
 
-exports.addSignature = (first, last, signature, time, userid) => {
+exports.addSignature = (signature, userid) => {
     return db.query(
         `
-        INSERT INTO signatures (first, last, signature, time, userid)
-        VALUES ($1, $2, $3, $4, $5) RETURNING id
+        INSERT INTO signatures (signature, userid)
+        VALUES ($1, $2) RETURNING id
     `,
-        [first, last, signature, time, userid]
+        [signature, userid]
     );
 };
-exports.addUser = (first, last, email, password, time) => {
+exports.addUser = (first, last, email, password) => {
     return db.query(
         `
-        INSERT INTO users (first, last, email, password, time)
-        VALUES ($1, $2, $3, $4, $5) RETURNING id
+        INSERT INTO users (first, last, email, password)
+        VALUES ($1, $2, $3, $4) RETURNING id
     `,
-        [first, last, email, password, time]
+        [first, last, email, password]
     );
 };
 
-exports.getUserPassword = (email) => {
-    return db.query(`SELECT password FROM users WHERE email = '${email}'`);
-};
+// exports.getUserPassword = (email) => {
+//     return db.query(`SELECT password FROM users WHERE email = '${email}'`);
+// };
 
 exports.countSignatures = () => {
     return db.query(`SELECT count(*) FROM signatures`);

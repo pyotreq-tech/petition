@@ -5,22 +5,20 @@
 
 -- CREATE TABLE signatures (
 --      id SERIAL PRIMARY KEY,
---      first VARCHAR NOT NULL CHECK (first != ''),
---      last VARCHAR NOT NULL CHECK (last != ''),
 --      signature TEXT NOT NULL CHECK (signature != ''),
---      time TIMESTAMP,
---      userid NUMERIC
+--      userid INTEGER NOT NULL UNIQUE REFERENCES users(id),
+--      time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
 -- CREATE TABLE users (
 --      id SERIAL PRIMARY KEY,
 --      first VARCHAR NOT NULL CHECK (first != ''),
 --      last VARCHAR NOT NULL CHECK (last != ''),
---      email VARCHAR NOT NULL CHECK (email != ''),
+--      email VARCHAR NOT NULL UNIQUE CHECK (email != ''),
 --      password VARCHAR NOT NULL CHECK (password != ''),
---      time TIMESTAMP,
+--      time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 --      admin VARCHAR
 -- );
 
 
--- UPDATE users SET admin = 'true' WHERE id = 2;
+-- UPDATE users SET admin = 'true' WHERE id = 1;
