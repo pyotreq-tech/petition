@@ -2,10 +2,8 @@ const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
 const db = require("./db");
-const methodOverride = require("method-override");
 const bcrypt = require("./bcrypt");
-
-// const url = require("url");
+const methodOverride = require("method-override");
 // setting cookies
 // it's secure because you cannot fake them, but you can decode the values in dev tools
 const cookieSession = require("cookie-session");
@@ -57,44 +55,62 @@ app.get("/login", (req, res) => {
 
 app.post("/login", (req, res) => {
     const { emailAddress, password } = req.body;
-    db.getUserPassword(emailAddress)
-        .then(({ rows }) => {
-            const hash = rows[0].password;
-            bcrypt
-                .compare(password, hash)
-                .then((auth) => {
-                    if (auth) {
-                        db.getUserData(emailAddress)
-                            .then(({ rows }) => {
-                                req.session.user = {
-                                    id: rows[0].id,
-                                    firstName: rows[0].first,
-                                    lastName: rows[0].last,
-                                    email: emailAddress,
-                                    admin: rows[0].admin,
-                                };
-                                console.log("cookie: ", req.session.user);
-                                res.redirect("/signed");
-                            })
-                            .catch((err) => {
-                                console.log("error in sql: ", err);
+    if (emailAddress && password) {
+        db.getUserPassword(emailAddress)
+            .then(({ rows }) => {
+                if (rows.length !== 0) {
+                    const hash = rows[0].password;
+                    bcrypt
+                        .compare(password, hash)
+                        .then((auth) => {
+                            if (auth) {
+                                db.getUserData(emailAddress)
+                                    .then(({ rows }) => {
+                                        req.session.user = {
+                                            id: rows[0].id,
+                                            firstName: rows[0].first,
+                                            lastName: rows[0].last,
+                                            email: emailAddress,
+                                            admin: rows[0].admin,
+                                        };
+                                        res.redirect("/petition");
+                                    })
+                                    .catch((err) => {
+                                        console.log("error in sql: ", err);
+                                        res.render("login", {
+                                            empty: "Internal database error.",
+                                        });
+                                    });
+                            } else {
+                                res.render("login", {
+                                    empty: "Invalid login or password.",
+                                });
+                            }
+                        })
+                        .catch((err) => {
+                            console.log("Err in matching the password: ", err);
+                            res.render("login", {
+                                empty:
+                                    "Something went wrong. Please try again later.",
                             });
-                    } else {
-                        res.render("login", {
-                            empty: "Invalid login or password.",
                         });
-                    }
-                })
-                .catch((err) => {
-                    console.log("Err in matching the password: ", err);
+                } else {
+                    res.render("login", {
+                        empty: "E-mail address is not in db.",
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log("Error in loging in: ", err);
+                res.render("login", {
+                    empty: "Something went wrong with db connection.",
                 });
-        })
-        .catch((err) => {
-            console.log("Error in loging in: ", err);
-            res.render("login", {
-                empty: "Invalid login or password.",
             });
+    } else {
+        res.render("login", {
+            empty: "Please fill in both username and password.",
         });
+    }
 });
 
 app.get("/register", (req, res) => {
@@ -104,30 +120,39 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
     const { firstName, lastName, emailAddress, password } = req.body;
     const time = new Date();
-    console.log(firstName, lastName, emailAddress, password);
-    bcrypt
-        .hash(password)
-        .then((hash) => {
-            db.addUser(firstName, lastName, emailAddress, hash, time)
-                .then(({ rows }) => {
-                    req.session.user = {
-                        id: rows[0].id,
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: emailAddress,
-                    };
-                    res.redirect("/petition");
-                })
-                .catch((err) => {
-                    res.render("register", {
-                        empty: "Please fill in all the fields.",
+
+    if (firstName && lastName && emailAddress && password) {
+        bcrypt
+            .hash(password)
+            .then((hash) => {
+                db.addUser(firstName, lastName, emailAddress, hash, time)
+                    .then(({ rows }) => {
+                        req.session.user = {
+                            id: rows[0].id,
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: emailAddress,
+                        };
+                        res.redirect("/petition");
+                    })
+                    .catch((err) => {
+                        res.render("register", {
+                            empty: "Error while adding users to the db.",
+                        });
+                        console.log("Error while creating a user: ", err);
                     });
-                    console.log("Error while creating a user: ", err);
+            })
+            .catch((err) => {
+                res.render("register", {
+                    empty: "Something went wrong. Please try again",
                 });
-        })
-        .catch((err) => {
-            console.log("Error while making a password: ", err);
+                console.log("Error while making a password: ", err);
+            });
+    } else {
+        res.render("register", {
+            empty: "Please fill all the necessary fields",
         });
+    }
 });
 
 app.use(isLoggedIn);
@@ -144,7 +169,6 @@ app.get("/petition", (req, res) => {
                     user,
                 });
             } else {
-                console.log("second: ", rows);
                 req.session.user.signatureId = rows[0].id;
                 res.redirect("/signed");
             }
@@ -155,28 +179,41 @@ app.get("/petition", (req, res) => {
 });
 
 app.get("/signed", signatureCheck, (req, res) => {
+    const { user } = req.session;
     db.getImageUrl(req.session.user.signatureId)
         .then((url) => {
-            let imgUrl = url.rows[0].signature;
-            console.log(imgUrl);
-            const { user } = req.session;
-            db.countSignatures()
-                .then(({ rows }) => {
-                    // console.log(rows);
-                    res.render("signed", {
-                        rows,
-                        imgUrl,
-                        isLoggedIn: true,
-                        user,
+            if (url.rows.length !== 0) {
+                let imgUrl = url.rows[0].signature;
+                db.countSignatures()
+                    .then(({ rows }) => {
+                        res.render("signed", {
+                            rows,
+                            imgUrl,
+                            isLoggedIn: true,
+                            user,
+                        });
+                    })
+                    .catch((err) => {
+                        console.log("Error with obtaining singers number", err);
+                        res.render("signed", {
+                            empty: "Internal database error",
+                            isLoggedIn: true,
+                            user,
+                            imgUrl,
+                        });
                     });
-                })
-                .catch((err) => {
-                    console.log("Error with obtaining singers number", err);
-                });
+            } else {
+                delete req.session.user.signatureId;
+                res.redirect("petition");
+            }
         })
         .catch((err) => {
             console.log("Something went wrong with obtaining image URL", err);
-            res.redirect("/petition");
+            res.render("signed", {
+                empty: "Internal database error",
+                isLoggedIn: true,
+                user,
+            });
         });
 });
 
