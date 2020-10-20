@@ -35,6 +35,10 @@ const validator = (age, homePage) => {
             !homePage.startsWith("http://") &&
             !homePage.startsWith("https://")
         ) {
+            if (homePage.startsWith("www")) {
+                empty = "Please add http:// or https:// to your e-mail address";
+                return empty;
+            }
             empty = "Please start e-mail with http:// or https://";
             return empty;
         }
@@ -381,7 +385,12 @@ app.delete("/signers/delete/:id", (req, res) => {
     const { id } = req.params;
     db.deleteSignature(id)
         .then(() => {
-            res.redirect("/signers");
+            if (req.session.user.signatureId === id) {
+                delete req.session.user.signatureId;
+                res.redirect("/signed");
+            } else {
+                res.redirect("/signers");
+            }
         })
         .catch((err) => {
             console.log("error while making delete request", err);

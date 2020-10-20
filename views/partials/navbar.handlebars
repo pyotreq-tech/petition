@@ -8,6 +8,10 @@
         </div>
         <div>
             {{#if isLoggedIn}}
+            <a href="/petition" class="navbar-font">Petition</a>
+            {{#if user.signatureId}}
+            <a href="/signers" class="navbar-font">Signatories</a>
+            {{/if}}
             <span class="navbar-font">Welcome {{user.firstName}} </span>
             <a href="/logout" class="navbar-font"> <i class="fas fa-sign-out-alt"></i></a>
             {{else}}

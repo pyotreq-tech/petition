@@ -21,7 +21,8 @@ module.exports.getSignatures = () => {
 module.exports.getSignaturesCity = (city) => {
     //SELECT *, but then it does not change the columns name and they may duplicate
     //rewrite to main table be signatures
-    //lowercase sql Andrea
+    //lowercase sql Andrea notes part 4
+    //google city autocomplete??
     return db.query(
         `SELECT users.first AS first, users.last AS last, user_profiles.age AS age, user_profiles.city AS city, user_profiles.url AS url, signatures.id AS id
     FROM signatures
