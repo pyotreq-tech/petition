@@ -21,6 +21,28 @@ const signatureCheck = (req, res, next) => {
 };
 //
 
+//function that validates input from user profile input
+const validator = (age, homePage) => {
+    let empty;
+    if (isNaN(age)) {
+        empty = "You have to use a number";
+        return empty;
+    } else if (age < 0) {
+        empty = "Sorry but your age cannot be under zero";
+        return empty;
+    } else if (homePage) {
+        if (
+            !homePage.startsWith("http://") &&
+            !homePage.startsWith("https://")
+        ) {
+            empty = "Please start e-mail with http:// or https://";
+            return empty;
+        }
+    }
+};
+
+//
+
 // check for cookies - middleware
 const isLoggedIn = (req, res, next) => {
     if (req.session.user) {
@@ -304,15 +326,18 @@ app.get("/profile", isUserData, (req, res) => {
 });
 
 app.post("/profile", isUserData, (req, res) => {
-    let { age, city, homePage } = req.body;
+    var { age, city, homePage } = req.body;
     const { id } = req.session.user;
     const { user } = req.session;
+    const empty = validator(age, homePage);
 
-    if (age === "") {
-        age = parseInt(0);
-    }
-
-    if (!isNaN(age)) {
+    if (empty) {
+        res.render("profile", {
+            empty,
+            isLoggedIn: true,
+            user,
+        });
+    } else {
         db.addUserProfile(age, city, homePage, id)
             .then(() => {
                 req.session.user.profile = true;
@@ -326,12 +351,6 @@ app.post("/profile", isUserData, (req, res) => {
                     user,
                 });
             });
-    } else {
-        res.render("profile", {
-            empty: "Age has to be a number",
-            isLoggedIn: true,
-            user,
-        });
     }
 });
 
@@ -386,3 +405,4 @@ app.listen(8080, () => {
 // => app.use(csurf()) goes AFTER .use cookieSession, urlencoded
 // res.set('x-frame-options','deny') can be also in csurf middleware(app.use)
 // => toDo res.setHeader('xframes - deny') - against clickjacking
+// server form validations?

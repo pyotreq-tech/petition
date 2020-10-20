@@ -77,7 +77,7 @@ exports.addUserProfile = (age, city, url, userid) => {
         INSERT INTO user_profiles (age, city, url, userid)
         VALUES ($1, $2, $3, $4) RETURNING id
     `,
-        [age, city, url, userid]
+        [age || null, city, url, userid]
     );
 };
 
