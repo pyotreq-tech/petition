@@ -31,6 +31,15 @@ const isLoggedIn = (req, res, next) => {
 };
 //
 
+// check if filled data
+const isUserData = (req, res, next) => {
+    if (!req.session.user.profile) {
+        next();
+    } else {
+        res.redirect("/petition");
+    }
+};
+
 app.engine("handlebars", handlebars());
 app.set("view engine", "handlebars");
 
@@ -125,7 +134,8 @@ app.post("/register", (req, res) => {
                                         lastName: lastName,
                                         email: emailAddress,
                                     };
-                                    res.redirect("/petition");
+
+                                    res.redirect("/profile");
                                 })
                                 .catch((err) => {
                                     res.render("register", {
@@ -277,10 +287,78 @@ app.get("/signers", signatureCheck, (req, res) => {
         })
         .catch((err) => {
             console.log("error in get Signers: ", err);
+            res.render("signers", {
+                isLoggedIn: true,
+                user,
+                empty: "Internal db error",
+            });
         });
 });
 
-app.delete("/signers/:id", (req, res) => {
+app.get("/profile", isUserData, (req, res) => {
+    const { user } = req.session;
+    res.render("profile", {
+        isLoggedIn: true,
+        user,
+    });
+});
+
+app.post("/profile", isUserData, (req, res) => {
+    let { age, city, homePage } = req.body;
+    const { id } = req.session.user;
+    const { user } = req.session;
+
+    if (age === "") {
+        age = parseInt(0);
+    }
+
+    if (!isNaN(age)) {
+        db.addUserProfile(age, city, homePage, id)
+            .then(() => {
+                req.session.user.profile = true;
+                res.redirect("/petition");
+            })
+            .catch((err) => {
+                console.log("something went wrong with adding profile: ", err);
+                res.render("profile", {
+                    empty: "Internal database error",
+                    isLoggedIn: true,
+                    user,
+                });
+            });
+    } else {
+        res.render("profile", {
+            empty: "Age has to be a number",
+            isLoggedIn: true,
+            user,
+        });
+    }
+});
+
+app.get("/signers/:city", signatureCheck, (req, res) => {
+    const { user } = req.session;
+    const { city } = req.params;
+
+    db.getSignaturesCity(city)
+        .then(({ rows }) => {
+            res.render("signersCity", {
+                isLoggedIn: true,
+                user,
+                rows,
+                city,
+            });
+        })
+        .catch((err) => {
+            console.log("error while obtaing data from db: ", err);
+            res.render("signers", {
+                empty: "Internal database error",
+                isLoggedIn: true,
+                user,
+            });
+        });
+});
+
+app.delete("/signers/delete/:id", (req, res) => {
     const { id } = req.params;
     db.deleteSignature(id)
         .then(() => {

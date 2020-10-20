@@ -1,8 +1,7 @@
--- DROP TABLE IF EXISTS signatures;
--- DROP TABLE IF EXISTS users;
-
 -- Check if user can post limited chars
 
+
+-- DROP TABLE IF EXISTS signatures CASCADE;
 -- CREATE TABLE signatures (
 --      id SERIAL PRIMARY KEY,
 --      signature TEXT NOT NULL CHECK (signature != ''),
@@ -10,6 +9,7 @@
 --      time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
+-- DROP TABLE IF EXISTS users CASCADE;
 -- CREATE TABLE users (
 --      id SERIAL PRIMARY KEY,
 --      first VARCHAR NOT NULL CHECK (first != ''),
@@ -19,6 +19,16 @@
 --      time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 --      admin VARCHAR
 -- );
+
+-- DROP TABLE IF EXISTS user_profiles CASCADE;
+-- CREATE TABLE user_profiles(
+--     id SERIAL PRIMARY KEY,
+--     age INT,
+--     city VARCHAR(255),
+--     url VARCHAR(255),
+--     userid INT NOT NULL REFERENCES users(id)
+-- );
+
 
 
 -- UPDATE users SET admin = 'true' WHERE id = 1;
