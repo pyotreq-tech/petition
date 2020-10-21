@@ -79,12 +79,17 @@ exports.updateUsers = (id, first, last, email) => {
     `);
 };
 
+exports.updateUserPassword = (id, hash) => {
+    return db.query(`UPDATE users SET password = '${hash}' WHERE id = '${id}' ;
+    `);
+};
+
 exports.upsertUsers = (age, city, url, userid) => {
     return db.query(
         `INSERT INTO user_profiles (age, city, url, userid)
     VALUES ($1, $2, $3, $4)
     ON CONFLICT (userid)
-    DO UPDATE SET age = $1, city = $2, url = '$3';
+    DO UPDATE SET age = $1, city = $2, url = $3;
     `,
         [age || null, city, url, userid]
     );

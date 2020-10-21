@@ -429,84 +429,119 @@ app.post("/profile/edit", (req, res) => {
             empty,
         });
     } else {
-        if (password) {
-            console.log("password has been typed");
-        } else {
-            console.log("no password has been typed");
-            db.getUserData(emailAddress)
-                .then(({ rows }) => {
-                    // console.log(rows);
+        console.log("no password has been typed");
+        db.getUserData(emailAddress)
+            .then(({ rows }) => {
+                if (rows.length === 0 || rows[0].email === user.email) {
+                    console.log("there is no such email");
 
-                    if (rows.length === 0 || rows[0].email === user.email) {
-                        console.log("there is no such email");
+                    db.updateUsers(user.id, firstName, lastName, emailAddress)
+                        .then(() => {
+                            user.firstName = firstName;
+                            user.lastName = lastName;
+                            user.email = emailAddress;
 
-                        db.updateUsers(
-                            user.id,
-                            firstName,
-                            lastName,
-                            emailAddress
-                        )
-                            .then(() => {
-                                user.firstName = firstName;
-                                user.lastName = lastName;
-                                user.email = emailAddress;
+                            db.upsertUsers(age, city, homePage, user.id)
+                                .then(() => {
+                                    user.age = age;
+                                    user.city = city;
+                                    user.url = homePage;
+                                    console.log(user);
 
-                                db.upsertUsers(age, city, homePage, user.id)
-                                    .then(() => {
-                                        user.age = age;
-                                        user.city = city;
-                                        user.url = homePage;
-                                        console.log(user);
+                                    if (password) {
+                                        bcrypt
+                                            .hash(password)
+                                            .then((hash) => {
+                                                db.updateUserPassword(
+                                                    user.id,
+                                                    hash
+                                                )
+                                                    .then(() => {
+                                                        res.render(
+                                                            "profileEdit",
+                                                            {
+                                                                isLoggedIn: true,
+                                                                user,
+                                                                good:
+                                                                    "Your profile has been succesfully updated",
+                                                            }
+                                                        );
+                                                    })
+                                                    .catch((err) => {
+                                                        console.log(
+                                                            "Error while updating user password: ",
+                                                            err
+                                                        );
+                                                        res.render(
+                                                            "profileEdit",
+                                                            {
+                                                                isLoggedIn: true,
+                                                                user,
+                                                                empty:
+                                                                    "Error while updating user password",
+                                                            }
+                                                        );
+                                                    });
+                                            })
+                                            .catch((err) => {
+                                                console.log(
+                                                    "error while hashing the password: ",
+                                                    err
+                                                );
+                                                res.render("profileEdit", {
+                                                    isLoggedIn: true,
+                                                    user,
+                                                    empty:
+                                                        "Internal error while hashing the password",
+                                                });
+                                            });
+                                    } else {
                                         res.render("profileEdit", {
                                             isLoggedIn: true,
                                             user,
                                             good:
                                                 "Your profile has been succesfully updated",
                                         });
-                                    })
-                                    .catch((err) => {
-                                        console.log(
-                                            "Something went wrong while making second part of update: ",
-                                            err
-                                        );
-                                        res.render("profileEdit", {
-                                            isLoggedIn: true,
-                                            user,
-                                            empty:
-                                                "Internal error while updating part 2 of database",
-                                        });
+                                    }
+                                })
+                                .catch((err) => {
+                                    console.log(
+                                        "Something went wrong while making second part of update: ",
+                                        err
+                                    );
+                                    res.render("profileEdit", {
+                                        isLoggedIn: true,
+                                        user,
+                                        empty:
+                                            "Internal error while updating part 2 of database",
                                     });
-                            })
-                            .catch((err) => {
-                                console.log(
-                                    "error in updating database: ",
-                                    err
-                                );
-                                res.render("profileEdit", {
-                                    isLoggedIn: true,
-                                    user,
-                                    empty:
-                                        "Internal error while updating database",
                                 });
+                        })
+                        .catch((err) => {
+                            console.log("error in updating database: ", err);
+                            res.render("profileEdit", {
+                                isLoggedIn: true,
+                                user,
+                                empty: "Internal error while updating database",
                             });
-                    } else {
-                        res.render("profileEdit", {
-                            isLoggedIn: true,
-                            user,
-                            empty:
-                                "Sorry but this e-mail already exists in the database",
                         });
-                    }
-                })
-                .catch((err) => {
-                    console.log("error while checking e-mail address", err);
+                } else {
                     res.render("profileEdit", {
                         isLoggedIn: true,
                         user,
-                        empty: "Error while checking e-mail address",
+                        empty:
+                            "Sorry but this e-mail already exists in the database",
                     });
+                }
+            })
+            .catch((err) => {
+                console.log("error while checking e-mail address", err);
+                res.render("profileEdit", {
+                    isLoggedIn: true,
+                    user,
+                    empty: "Error while checking e-mail address",
                 });
-        }
+            });
     }
 });
 
