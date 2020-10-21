@@ -24,6 +24,18 @@ module.exports.getSignatures = () => {
     `);
 };
 
+module.exports.getUserDataForUpdate = (id) => {
+    return db.query(
+        `SELECT users.first AS first, users.last AS last, users.email AS email, user_profiles.age AS age, user_profiles.city AS city, user_profiles.url AS url
+    FROM users
+    LEFT OUTER JOIN user_profiles
+    ON users.id = user_profiles.userid
+    WHERE users.id = $1
+    `,
+        [id]
+    );
+};
+
 module.exports.getSignaturesCity = (city) => {
     //SELECT *, but then it does not change the columns name and they may duplicate
     //rewrite to main table be signatures
@@ -58,6 +70,24 @@ module.exports.getIfSignature = (id) => {
 
 exports.getUserData = (email) => {
     return db.query(`SELECT * FROM users WHERE email = '${email}' `);
+};
+
+exports.updateUsers = (id, first, last, email) => {
+    return db.query(`UPDATE users SET first = '${first}' WHERE id = '${id}' ;
+    UPDATE users SET last = '${last}' WHERE id = '${id}';
+    UPDATE users SET email = '${email}' WHERE id = '${id}';
+    `);
+};
+
+exports.upsertUsers = (age, city, url, userid) => {
+    return db.query(
+        `INSERT INTO user_profiles (age, city, url, userid)
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT (userid)
+    DO UPDATE SET age = $1, city = $2, url = '$3';
+    `,
+        [age || null, city, url, userid]
+    );
 };
 
 exports.addSignature = (signature, userid) => {

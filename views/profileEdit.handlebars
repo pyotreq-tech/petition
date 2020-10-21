@@ -1,0 +1,19 @@
+Edit your profile
+
+<form method="POST">
+    <label for ="firstName">First Name</label>
+    <input name="firstName" value="{{user.firstName}}">
+    <label for ="lastName">Last Name</label>
+    <input name="lastName" value="{{user.lastName}}">
+    <label for ="emailAddress" type="email">Email Address</label>
+    <input name="emailAddress" value="{{user.email}}">
+    <label for ="password">Password</label>
+    <input name="password" type="password">
+    <label for ="age">Age</label>
+    <input name="age" value="{{user.age}}">
+    <label for ="city">City</label>
+    <input name="city" value="{{user.city}}">
+    <label for ="homePage">Homepage</label>
+    <input name="homePage" value="{{user.url}}">
+    <button class="button-login">Update</button>
+</form>

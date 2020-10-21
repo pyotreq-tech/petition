@@ -381,6 +381,135 @@ app.get("/signers/:city", signatureCheck, (req, res) => {
         });
 });
 
+app.get("/profile/edit", (req, res) => {
+    let { user } = req.session;
+    db.getUserDataForUpdate(user.id)
+        .then(({ rows }) => {
+            console.log(rows);
+            user.firstName = rows[0].first;
+            user.lastName = rows[0].last;
+            user.email = rows[0].email;
+            user.age = rows[0].age;
+            user.city = rows[0].city;
+            user.url = rows[0].url;
+
+            res.render("profileEdit", {
+                isLoggedIn: true,
+                user,
+                rows,
+            });
+        })
+        .catch((err) => {
+            console.log("Error in obtaining user data: ", err);
+            res.render("profileEdit", {
+                isLoggedIn: true,
+                user,
+                empty: "Internal db error",
+            });
+        });
+});
+
+app.post("/profile/edit", (req, res) => {
+    let {
+        firstName,
+        lastName,
+        emailAddress,
+        age,
+        city,
+        homePage,
+        password,
+    } = req.body;
+    const { user } = req.session;
+    const empty = validator(age, homePage);
+
+    if (empty) {
+        res.render("profileEdit", {
+            isLoggedIn: true,
+            user,
+            empty,
+        });
+    } else {
+        if (password) {
+            console.log("password has been typed");
+        } else {
+            console.log("no password has been typed");
+            db.getUserData(emailAddress)
+                .then(({ rows }) => {
+                    // console.log(rows);
+
+                    if (rows.length === 0 || rows[0].email === user.email) {
+                        console.log("there is no such email");
+
+                        db.updateUsers(
+                            user.id,
+                            firstName,
+                            lastName,
+                            emailAddress
+                        )
+                            .then(() => {
+                                user.firstName = firstName;
+                                user.lastName = lastName;
+                                user.email = emailAddress;
+
+                                db.upsertUsers(age, city, homePage, user.id)
+                                    .then(() => {
+                                        user.age = age;
+                                        user.city = city;
+                                        user.url = homePage;
+                                        console.log(user);
+                                        res.render("profileEdit", {
+                                            isLoggedIn: true,
+                                            user,
+                                            good:
+                                                "Your profile has been succesfully updated",
+                                        });
+                                    })
+                                    .catch((err) => {
+                                        console.log(
+                                            "Something went wrong while making second part of update: ",
+                                            err
+                                        );
+                                        res.render("profileEdit", {
+                                            isLoggedIn: true,
+                                            user,
+                                            empty:
+                                                "Internal error while updating part 2 of database",
+                                        });
+                                    });
+                            })
+                            .catch((err) => {
+                                console.log(
+                                    "error in updating database: ",
+                                    err
+                                );
+                                res.render("profileEdit", {
+                                    isLoggedIn: true,
+                                    user,
+                                    empty:
+                                        "Internal error while updating database",
+                                });
+                            });
+                    } else {
+                        res.render("profileEdit", {
+                            isLoggedIn: true,
+                            user,
+                            empty:
+                                "Sorry but this e-mail already exists in the database",
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("error while checking e-mail address", err);
+                    res.render("profileEdit", {
+                        isLoggedIn: true,
+                        user,
+                        empty: "Error while checking e-mail address",
+                    });
+                });
+        }
+    }
+});
+
 app.delete("/signers/delete/:id", (req, res) => {
     const { id } = req.params;
     db.deleteSignature(id)
@@ -415,3 +544,4 @@ app.listen(process.env.PORT || 8080, () => {
 // res.set('x-frame-options','deny') can be also in csurf middleware(app.use)
 // => toDo res.setHeader('xframes - deny') - against clickjacking
 // server form validations?
+//when signed details straight after reg. -> never show again

@@ -228,6 +228,10 @@ footer > div.container {
     padding: 0 150px;
     background-color: #af2c3e;
 }
+.good {
+    padding: 0 150px;
+    background-color: green;
+}
 
 .error-font {
     font-family: "Roboto", sans-serif;

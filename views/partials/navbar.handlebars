@@ -8,11 +8,12 @@
         </div>
         <div>
             {{#if isLoggedIn}}
+            <span class="navbar-font">Welcome {{user.firstName}}</span>
+            <a href="/profile/edit/" class="navbar-font"><i class="fas fa-user-edit"> </i></a>
             <a href="/petition" class="navbar-font">Petition</a>
             {{#if user.signatureId}}
             <a href="/signers" class="navbar-font">Signatories</a>
             {{/if}}
-            <span class="navbar-font">Welcome {{user.firstName}} </span>
             <a href="/logout" class="navbar-font"> <i class="fas fa-sign-out-alt"></i></a>
             {{else}}
             <a href="/login" class="navbar-font">Login</a>
@@ -24,6 +25,10 @@
         {{#if empty}}
         <h1 class="error-font">{{empty}}</h1>
         {{/if}}
-        
+    </div>
+    <div class="good">
+        {{#if good}}
+        <h1 class="error-font">{{good}}</h1>
+        {{/if}}
     </div>
 </navbar>

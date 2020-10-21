@@ -26,8 +26,9 @@
 --     age INT,
 --     city VARCHAR(255),
 --     url VARCHAR(255),
---     userid INT NOT NULL REFERENCES users(id)
+--     userid INT NOT NULL UNIQUE REFERENCES users(id)
 -- );
+
 
 
 
