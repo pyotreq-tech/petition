@@ -1,7 +1,7 @@
 body {
     box-sizing: border-box;
     margin: 0;
-    height: 100vh;
+    /* min-height: 100vh; */
 }
 
 canvas {
@@ -46,7 +46,7 @@ footer > div.container {
     background-image: url("wallpaper1.jpg");
     background-attachment: fixed;
     background-size: cover;
-    height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: row-reverse;
     /* justify-content: space-between; */
@@ -63,7 +63,7 @@ footer > div.container {
     background-image: url("wallpaper3.jpg");
     background-attachment: fixed;
     background-size: cover;
-    /* height: 100%; */
+    min-height: 100vh;
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
@@ -88,7 +88,7 @@ footer > div.container {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    height: 100%;
+    min-height: 100vh;
 }
 .signed-div {
     background-color: rgba(255, 255, 255, 0.7);
@@ -108,7 +108,7 @@ footer > div.container {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    height: 100%;
+    min-height: 100vh;
 }
 .petition-div {
     background-color: rgba(255, 255, 255, 0.7);
@@ -152,7 +152,7 @@ footer > div.container {
     background-image: url("wallpaper2.jpg");
     background-attachment: fixed;
     background-size: cover;
-    height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: row-reverse;
 }
@@ -290,4 +290,81 @@ h1 {
 
 p {
     text-align: center;
+}
+
+/* Color pick for the canvas: */
+
+.colors {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.color {
+    width: 15px;
+    height: 15px;
+    margin: 10px;
+    border-radius: 50%;
+}
+
+.brush {
+    background-color: black;
+    margin: 10px;
+    border-radius: 50%;
+}
+
+#BLACK {
+    background-color: BLACK;
+}
+
+#CHARTREUSE {
+    background-color: CHARTREUSE;
+}
+
+#DARKBLUE {
+    background-color: DARKBLUE;
+}
+
+#FUCHSIA {
+    background-color: FUCHSIA;
+}
+
+#SEAGREEN {
+    background-color: SEAGREEN;
+}
+
+#MEDIUMAQUAMARINE {
+    background-color: MEDIUMAQUAMARINE;
+}
+
+#FIREBRICK {
+    background-color: FIREBRICK;
+}
+
+#GOLDENROD {
+    background-color: GOLDENROD;
+}
+
+#small {
+    width: 3px;
+    height: 3px;
+}
+
+#medium {
+    width: 6px;
+    height: 6px;
+}
+
+#large {
+    width: 9px;
+    height: 9px;
+}
+
+.selected {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.border {
+    border-radius: 0;
 }

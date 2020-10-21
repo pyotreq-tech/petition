@@ -1,5 +1,11 @@
 var spicedPg = require("spiced-pg");
-var db = spicedPg("postgres:postgres:postgres@localhost:5432/petition");
+
+//we can add that data from secret.json alternatively
+
+var db = spicedPg(
+    process.env.DATABASE_URL ||
+        `postgres:postgres:postgres@localhost:5432/petition`
+);
 
 // module.exports.getSignatures = () => {
 //     return db.query(`SELECT * FROM signatures`);
