@@ -216,17 +216,22 @@ app.get("/petition", (req, res) => {
     const { user } = req.session;
 
     if (req.session.user.signatureId) {
+        req.session.user.profile = true;
+
         res.redirect("/signed");
     } else {
         db.getIfSignature(id)
             .then(({ rows }) => {
                 if (rows.length === 0) {
+                    req.session.user.profile = true;
+
                     res.render("petition", {
                         isLoggedIn: true,
                         user,
                     });
                 } else {
                     req.session.user.signatureId = rows[0].id;
+
                     res.redirect("/signed");
                 }
             })
@@ -333,8 +338,6 @@ app.get("/signers", signatureCheck, (req, res) => {
 
 app.get("/profile", isUserData, (req, res) => {
     const { user } = req.session;
-    req.session.user.profile = true;
-
     res.render("profile", {
         isLoggedIn: true,
         user,
@@ -346,7 +349,6 @@ app.post("/profile", isUserData, (req, res) => {
     const { id } = req.session.user;
     const { user } = req.session;
     const empty = validator(age, homePage);
-
     if (empty) {
         res.render("profile", {
             empty,
@@ -356,6 +358,7 @@ app.post("/profile", isUserData, (req, res) => {
     } else {
         db.addUserProfile(age, city, homePage, id)
             .then(() => {
+                req.session.user.profile = true;
                 res.redirect("/petition");
             })
             .catch((err) => {
@@ -403,6 +406,7 @@ app.get("/profile/edit", (req, res) => {
             user.age = rows[0].age;
             user.city = rows[0].city;
             user.url = rows[0].url;
+            req.session.user.profile = true;
 
             res.render("profileEdit", {
                 isLoggedIn: true,
@@ -577,6 +581,19 @@ app.post("/profile/delete", (req, res) => {
                 .then((auth) => {
                     if (auth) {
                         console.log("match");
+                        db.deleteUserAccount(user.id)
+                            .then(() => {
+                                console.log("deleted");
+                                res.redirect("/logout");
+                            })
+                            .catch((err) => {
+                                console.log("error", err);
+                                res.render("profileDelete", {
+                                    isLoggedIn: true,
+                                    user,
+                                    empty: "Internal db error.",
+                                });
+                            });
                     } else {
                         console.log("not match");
                         res.render("profileDelete", {
@@ -667,3 +684,4 @@ app.listen(process.env.PORT || 8080, () => {
 //zrozumieć routing
 
 // return  res.redirect also possible!!
+// push msgs?

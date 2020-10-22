@@ -5,7 +5,7 @@
 -- CREATE TABLE signatures (
 --      id SERIAL PRIMARY KEY,
 --      signature TEXT NOT NULL CHECK (signature != ''),
---      userid INTEGER NOT NULL UNIQUE REFERENCES users(id),
+--      userid INTEGER NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE,
 --      time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
@@ -26,10 +26,11 @@
 --     age INT,
 --     city VARCHAR(255),
 --     url VARCHAR(255),
---     userid INT NOT NULL UNIQUE REFERENCES users(id)
+--     userid INT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE
 -- );
 
 
 
 
 -- UPDATE users SET admin = 'true' WHERE id = 1;
+

@@ -135,7 +135,12 @@ exports.deleteSignature = (id) => {
     return db.query(`DELETE FROM signatures WHERE id = $1`, [id]);
 };
 exports.deleteUserAccount = (id) => {
-    return db.query(`DELETE FROM signatures WHERE id = $1`, [id]);
+    return db.query(
+        `DELETE FROM users WHERE id = $1;
+     
+    `,
+        [id]
+    );
 };
 
 // SQL injection for ALL requests
