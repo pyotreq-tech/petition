@@ -7,6 +7,7 @@ const methodOverride = require("method-override");
 // setting cookies
 // it's secure because you cannot fake them, but you can decode the values in dev tools
 const cookieSession = require("cookie-session");
+// const { hash } = require("bcryptjs");
 //
 app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: false }));
@@ -553,6 +554,55 @@ app.post("/profile/edit", (req, res) => {
                 });
             });
     }
+});
+
+app.get("/profile/delete", (req, res) => {
+    const { user } = req.session;
+
+    res.render("profileDelete.handlebars", {
+        isLoggedIn: true,
+        user,
+    });
+});
+
+app.post("/profile/delete", (req, res) => {
+    const { user } = req.session;
+    const { password } = req.body;
+
+    db.getUserData(user.email)
+        .then(({ rows }) => {
+            const hash = rows[0].password;
+            bcrypt
+                .compare(password, hash)
+                .then((auth) => {
+                    if (auth) {
+                        console.log("match");
+                    } else {
+                        console.log("not match");
+                        res.render("profileDelete", {
+                            isLoggedIn: true,
+                            user,
+                            empty: "Sorry, but password does not match.",
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log("Error while comparing password: ", err);
+                    res.render("profileDelete", {
+                        isLoggedIn: true,
+                        user,
+                        empty: "Error while comparing passwords",
+                    });
+                });
+        })
+        .catch((err) => {
+            console.log("Error while obtaining data from db: ", err);
+            res.render("profileDelete", {
+                isLoggedIn: true,
+                user,
+                empty: "Internal error.",
+            });
+        });
 });
 
 //How I can be sure that users nobody will be able to fake the request, other users, third parties?

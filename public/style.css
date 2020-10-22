@@ -372,3 +372,7 @@ p {
 .border {
     border-radius: 0;
 }
+
+.delete-button-form {
+    text-decoration: none;
+}
