@@ -1,8 +1,10 @@
 const express = require("express");
-const app = express();
+const app = (exports.app = express());
+// const app = express();
 const handlebars = require("express-handlebars");
 const db = require("./db");
 const bcrypt = require("./bcrypt");
+
 const methodOverride = require("method-override");
 // setting cookies
 // it's secure because you cannot fake them, but you can decode the values in dev tools
@@ -53,7 +55,7 @@ const isLoggedIn = (req, res, next) => {
     if (req.session.user) {
         next();
     } else {
-        res.redirect("/login");
+        res.redirect("/register");
     }
 };
 //
@@ -245,35 +247,47 @@ app.get("/petition", (req, res) => {
     }
 });
 
-app.post("/petition", (req, res) => {
-    const { signature } = req.body;
-    const { id } = req.session.user;
-    const { user } = req.session;
+app.post(
+    "/petition",
+    (req, res, next) => {
+        const { signatureId } = req.session.user;
+        if (signatureId) {
+            res.redirect("/signed");
+        } else {
+            next();
+        }
+    },
+    (req, res) => {
+        const { signature } = req.body;
+        const { id } = req.session.user;
+        const { user } = req.session;
 
-    if (signature) {
-        db.addSignature(signature, id)
-            .then(({ rows }) => {
-                // setting cookie value
-                // we can add another values here and in routes use && operator to determine access to different places
-                req.session.user.signatureId = rows[0].id;
-                res.redirect("/signed");
-            })
-            .catch((err) => {
-                console.log("Error while adding a signature: ", err);
-                res.render("petition", {
-                    user,
-                    empty: "Internal database error while making a petition",
-                    isLoggedIn: true,
+        if (signature) {
+            db.addSignature(signature, id)
+                .then(({ rows }) => {
+                    // setting cookie value
+                    // we can add another values here and in routes use && operator to determine access to different places
+                    req.session.user.signatureId = rows[0].id;
+                    res.redirect("/signed");
+                })
+                .catch((err) => {
+                    console.log("Error while adding a signature: ", err);
+                    res.render("petition", {
+                        user,
+                        empty:
+                            "Internal database error while making a petition",
+                        isLoggedIn: true,
+                    });
                 });
+        } else {
+            res.render("petition", {
+                user,
+                empty: "Please sign up the petition!",
+                isLoggedIn: true,
             });
-    } else {
-        res.render("petition", {
-            user,
-            empty: "Please sign up the petition!",
-            isLoggedIn: true,
-        });
+        }
     }
-});
+);
 
 app.get("/signed", signatureCheck, (req, res) => {
     const { user } = req.session;
@@ -643,9 +657,11 @@ app.get("/logout", (req, res) => {
     res.redirect("/");
 });
 
-app.listen(process.env.PORT || 8080, () => {
-    console.log("Server is listening...");
-});
+if (require.main == module) {
+    app.listen(process.env.PORT || 8080, () => {
+        console.log("Server is listening...");
+    });
+}
 
 // => toCheck constent security policy header and external policy headers
 // check all securities
