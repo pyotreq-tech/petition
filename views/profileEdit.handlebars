@@ -1,20 +1,27 @@
-Edit your profile
 
-<form method="POST">
+<div class="signers-container">
+    <div class="signers-div">
+
+
+<h1 class="font-black-signed">Edit your profile.</h1>
+
+<form method="POST" class="form-register form-font-black">
     <label for ="firstName">First Name</label>
-    <input name="firstName" value="{{user.firstName}}">
+    <input name="firstName" value="{{user.firstName}}" class="input-register">
     <label for ="lastName">Last Name</label>
-    <input name="lastName" value="{{user.lastName}}">
+    <input name="lastName" value="{{user.lastName}}" class="input-register">
     <label for ="emailAddress" type="email">Email Address</label>
-    <input name="emailAddress" value="{{user.email}}">
+    <input name="emailAddress" value="{{user.email}}" class="input-register">
     <label for ="password">Password</label>
-    <input name="password" type="password">
+    <input name="password" type="password" class="input-register">
     <label for ="age">Age</label>
-    <input name="age" value="{{user.age}}">
+    <input name="age" value="{{user.age}}" class="input-register">
     <label for ="city">City</label>
-    <input name="city" value="{{user.city}}">
+    <input name="city" value="{{user.city}}" class="input-register">
     <label for ="homePage">Homepage</label>
-    <input name="homePage" value="{{user.url}}">
+    <input name="homePage" value="{{user.url}}" class="input-register">
     <button class="button-login">Update</button>
 </form>
     <a href="/profile/delete" class="delete-button-form"><button class="button-login">Delete</button></a>
+
+    </div></div>

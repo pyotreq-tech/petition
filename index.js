@@ -399,7 +399,6 @@ app.get("/profile/edit", (req, res) => {
     let { user } = req.session;
     db.getUserDataForUpdate(user.id)
         .then(({ rows }) => {
-            console.log(rows);
             user.firstName = rows[0].first;
             user.lastName = rows[0].last;
             user.email = rows[0].email;
@@ -444,12 +443,9 @@ app.post("/profile/edit", (req, res) => {
             empty,
         });
     } else {
-        console.log("no password has been typed");
         db.getUserData(emailAddress)
             .then(({ rows }) => {
                 if (rows.length === 0 || rows[0].email === user.email) {
-                    console.log("there is no such email");
-
                     db.updateUsers(user.id, firstName, lastName, emailAddress)
                         .then(() => {
                             user.firstName = firstName;
@@ -461,7 +457,6 @@ app.post("/profile/edit", (req, res) => {
                                     user.age = age;
                                     user.city = city;
                                     user.url = homePage;
-                                    console.log(user);
 
                                     if (password) {
                                         bcrypt
@@ -580,10 +575,8 @@ app.post("/profile/delete", (req, res) => {
                 .compare(password, hash)
                 .then((auth) => {
                     if (auth) {
-                        console.log("match");
                         db.deleteUserAccount(user.id)
                             .then(() => {
-                                console.log("deleted");
                                 res.redirect("/logout");
                             })
                             .catch((err) => {
@@ -595,7 +588,6 @@ app.post("/profile/delete", (req, res) => {
                                 });
                             });
                     } else {
-                        console.log("not match");
                         res.render("profileDelete", {
                             isLoggedIn: true,
                             user,
