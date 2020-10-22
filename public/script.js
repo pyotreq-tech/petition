@@ -11,13 +11,13 @@ ctx.lineWidth = 1;
 
 // Canvas painting
 canvasJQ.on("mousedown", (e) => {
-    let x = e.clientX - canvasJQ.eq(0).offset().left;
-    let y = e.clientY - canvasJQ.eq(0).offset().top;
+    let x = e.pageX - canvasJQ.eq(0).offset().left;
+    let y = e.pageY - canvasJQ.eq(0).offset().top;
     ctx.moveTo(x, y);
     ctx.beginPath();
     canvasJQ.on("mousemove", (e) => {
-        let x = e.clientX - canvasJQ.eq(0).offset().left;
-        let y = e.clientY - canvasJQ.eq(0).offset().top;
+        let x = e.pageX - canvasJQ.eq(0).offset().left;
+        let y = e.pageY - canvasJQ.eq(0).offset().top;
         ctx.lineTo(x, y);
         ctx.stroke();
     });
