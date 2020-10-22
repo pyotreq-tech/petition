@@ -57,6 +57,14 @@ const isLoggedIn = (req, res, next) => {
 };
 //
 
+const isLoggedOut = (req, res, next) => {
+    if (!req.session.user) {
+        next();
+    } else {
+        res.redirect("/petition");
+    }
+};
+
 // check if filled data
 const isUserData = (req, res, next) => {
     if (!req.session.user.profile) {
@@ -80,15 +88,15 @@ app.use(
 //
 
 app.use(express.static("./public"));
-app.get("/", (req, res) => {
+app.get("/", isLoggedOut, (req, res) => {
     res.redirect("/login");
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", isLoggedOut, (req, res) => {
     res.render("login");
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", isLoggedOut, (req, res) => {
     const { emailAddress, password } = req.body;
     if (emailAddress && password) {
         db.getUserData(emailAddress)
@@ -106,6 +114,7 @@ app.post("/login", (req, res) => {
                                     email: emailAddress,
                                     admin: rows[0].admin,
                                 };
+                                req.session.user.profile = true;
                                 res.redirect("/petition");
                             } else {
                                 res.render("login", {
@@ -139,11 +148,11 @@ app.post("/login", (req, res) => {
     }
 });
 
-app.get("/register", (req, res) => {
+app.get("/register", isLoggedOut, (req, res) => {
     res.render("register");
 });
 
-app.post("/register", (req, res) => {
+app.post("/register", isLoggedOut, (req, res) => {
     const { firstName, lastName, emailAddress, password } = req.body;
     if (firstName && lastName && emailAddress && password) {
         db.getUserData(emailAddress)
@@ -323,6 +332,8 @@ app.get("/signers", signatureCheck, (req, res) => {
 
 app.get("/profile", isUserData, (req, res) => {
     const { user } = req.session;
+    req.session.user.profile = true;
+
     res.render("profile", {
         isLoggedIn: true,
         user,
@@ -344,7 +355,6 @@ app.post("/profile", isUserData, (req, res) => {
     } else {
         db.addUserProfile(age, city, homePage, id)
             .then(() => {
-                req.session.user.profile = true;
                 res.redirect("/petition");
             })
             .catch((err) => {
@@ -545,20 +555,28 @@ app.post("/profile/edit", (req, res) => {
     }
 });
 
+//How I can be sure that users nobody will be able to fake the request, other users, third parties?
 app.delete("/signers/delete/:id", (req, res) => {
     const { id } = req.params;
-    db.deleteSignature(id)
-        .then(() => {
-            if (req.session.user.signatureId === id) {
+    //check with req.session here before db query is enought, but my isLoggedIn is enough
+    if (req.session.user.signatureId == id) {
+        db.deleteSignature(id)
+            .then(() => {
                 delete req.session.user.signatureId;
-                res.redirect("/signed");
-            } else {
+                res.redirect("/petition");
+            })
+            .catch((err) => {
+                console.log("error while making delete request", err);
+            });
+    } else if (req.session.user.admin) {
+        db.deleteSignature(id)
+            .then(() => {
                 res.redirect("/signers");
-            }
-        })
-        .catch((err) => {
-            console.log("error while making delete request", err);
-        });
+            })
+            .catch((err) => {
+                console.log("error while making delete request", err);
+            });
+    }
 });
 
 app.get("/logout", (req, res) => {
@@ -580,3 +598,22 @@ app.listen(process.env.PORT || 8080, () => {
 // => toDo res.setHeader('xframes - deny') - against clickjacking
 // server form validations?
 //when signed details straight after reg. -> never show again
+//forgot your password?
+//validation for too many characters
+//frontend validation - server rejection
+//first backend validation, then frontend validation
+
+// csurf, xframe:
+
+// app.use(csurf());
+// app.use(function (req, res, next) {
+//     res.set("x-frame-options", "Deny");
+//     res.locals.csurfToken = req.csurfToken();
+//     next();
+// });
+
+//req. Logged In, Logged out, Signed, Not Signed
+//export middleware that we wrote to other file and import/ require them, copy paste and export
+//zrozumieć routing
+
+// return  res.redirect also possible!!

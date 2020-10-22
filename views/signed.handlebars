@@ -2,8 +2,11 @@
     <div class="signed-div">
         
         <h1 class="font-black-signed">Thank you for signing our petition.</h1>
-
+        User.id: {{user.signatureId}}
         <img src="{{imgUrl}}">
+        <form id="delete-form" action="/signers/delete/{{user.signatureId}}?_method=DELETE" method="POST"><button id="deleteButton">X</button></form>
+
+        
         <p class="login-content">Great job! If we collect enough signatures, all the dreams in the world will became true. What are you waiting for? Make a wish now! It will soon become real!</p>
 
         <a href="/signers" class="link-login form-font">See all {{rows.[0].count}} other dreamers.</a>
