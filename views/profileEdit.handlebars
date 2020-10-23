@@ -1,23 +1,23 @@
 <div class="edit-user-container">
     <form method="POST">
-        <div class="edit-separator">
+        <div class="edit-separator no-margin">
             <span class="navbar-font">ACCOUNT DETAILS</span>
         </div>
         <div class="edit-profile-div">
-            <label for ="firstName"  class="edit-left"><span class="navbar-font">First Name</span></label>
+            <label for ="firstName"  class="edit-left"><span class="delete-user-font">First Name</span></label>
             <input name="firstName" value="{{user.firstName}}" class="edit-right">
 
         </div>
         <div class="edit-profile-div">
-            <label for ="lastName"  class="edit-left"><span class="navbar-font">Last Name</span></label>
+            <label for ="lastName"  class="edit-left"><span class="delete-user-font">Last Name</span></label>
             <input name="lastName" value="{{user.lastName}}" class="edit-right">
         </div>
         <div class="edit-profile-div">
-            <label for ="emailAddress" type="email"  class="edit-left"><span class="navbar-font">Emain Address</span></label>
+            <label for ="emailAddress" type="email"  class="edit-left"><span class="delete-user-font">Email Address</span></label>
             <input name="emailAddress" value="{{user.email}}" class="edit-right">   
         </div>
         <div class="edit-profile-div">
-            <label for ="password"  class="edit-left"><span class="navbar-font">Password</span></label>
+            <label for ="password"  class="edit-left"><span class="delete-user-font">Password</span></label>
             <input name="password" type="password" class="edit-right">
         </div>
 
@@ -25,27 +25,25 @@
             <span class="navbar-font">PERSONAL DETAILS</span>
         </div>
         <div class="edit-profile-div">
-            <label for ="age"  class="edit-left"><span class="navbar-font">Age</span></label>
+            <label for ="age"  class="edit-left"><span class="delete-user-font">Age</span></label>
             <input name="age" value="{{user.age}}" class="edit-right">
         </div>
         <div class="edit-profile-div">
-            <label for ="city"  class="edit-left"><span class="navbar-font">City</span></label>
+            <label for ="city"  class="edit-left"><span class="delete-user-font">City</span></label>
             <input name="city" value="{{user.city}}" class="edit-right">
         </div>
         <div class="edit-profile-div">
-            <label for ="homePage"  class="edit-left"><span class="navbar-font">Homepage</span></label>
+            <label for ="homePage"  class="edit-left"><span class="delete-user-font">Homepage</span></label>
             <input name="homePage" value="{{user.url}}" class="edit-right">
         </div>
-
-
-        <div class="edit-separator">
-            <input type="submit" class="edit-left navbar-font" value="UPDATE DATA" id="update-button">
+        <div class="edit-separator-button">
+            <input type="submit" class="edit-left navbar-font" value="UPDATE DETAILS" id="update-button">
         </div>
 
     </form>
     <a href="/profile/delete" class="delete-button-form">
-        <div class="edit-separator">
-            <span class="navbar-font">DELETE ACCOUNT</span>
+        <div class="edit-separator-button">
+            <span class="delete-font">DELETE ACCOUNT</span>
         </div>
     </a> 
 </div>

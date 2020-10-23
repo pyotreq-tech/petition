@@ -1,7 +1,9 @@
 body {
     box-sizing: border-box;
+    grid-template-rows: 70px 1fr 40px;
+    display: grid;
     margin: 0;
-    /* min-height: 100vh; */
+    min-height: 100vh;
 }
 
 canvas {
@@ -22,7 +24,6 @@ form {
 
 navbar > div.container {
     display: flex;
-    /* width: 100%; */
     height: 70px;
     background-color: midnightblue;
     align-items: center;
@@ -33,7 +34,6 @@ navbar > div.container {
 
 footer > div.container {
     display: flex;
-    /* width: 100%; */
     height: 40px;
     background-color: midnightblue;
     align-items: center;
@@ -46,13 +46,12 @@ footer > div.container {
     background-image: url("wallpaper1.jpg");
     background-attachment: fixed;
     background-size: cover;
-    min-height: 100vh;
     display: flex;
     flex-direction: row-reverse;
-    /* justify-content: space-between; */
+    justify-content: space-evenly;
+    align-items: center;
 }
 .login-div {
-    margin: 80px 150px;
     width: 450px;
     display: flex;
     flex-direction: column;
@@ -63,7 +62,6 @@ footer > div.container {
     background-image: url("wallpaper3.jpg");
     background-attachment: fixed;
     background-size: cover;
-    min-height: 100vh;
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
@@ -100,7 +98,6 @@ footer > div.container {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    min-height: 100vh;
 }
 .signed-div {
     background-color: rgba(255, 255, 255, 0.7);
@@ -121,7 +118,6 @@ footer > div.container {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    min-height: 100vh;
 }
 .edit-user-container {
     padding: 0px 150px;
@@ -130,13 +126,13 @@ footer > div.container {
     background-size: cover;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    justify-content: center;
 }
 
 .edit-profile-div {
     display: flex;
     flex-direction: row;
-    height: 50px;
+    height: 30px;
 }
 
 .edit-left {
@@ -145,12 +141,15 @@ footer > div.container {
     color: black;
     text-decoration: none;
     width: 25%;
-    height: 50px;
+    height: 30px;
 }
 
 #update-button {
     height: 100%;
+    width: 100%;
     border: none;
+    margin: 0;
+    text-align: center;
 }
 
 .edit-right {
@@ -158,18 +157,39 @@ footer > div.container {
     font-family: "Roboto", sans-serif;
     color: black;
     text-decoration: none;
-    font-size: 1.5em;
-    height: 50px;
+    font-size: 1.4em;
+    height: 30px;
     padding: 0;
     margin: 0;
     border: 0;
     padding-left: 30px;
 }
+.confirm {
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin: 0;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+    color: black;
+    text-decoration: none;
+    font-size: 1.4em;
+}
+
 .edit-separator {
     width: 100%;
     background-color: midnightblue;
     height: 30px;
     margin-top: 30px;
+    text-align: center;
+}
+.edit-separator-button {
+    width: 400px;
+    background-color: midnightblue;
+    height: 30px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
 }
 
@@ -193,32 +213,36 @@ footer > div.container {
     font-size: 1em;
 }
 
-/* .petition-div {
-    background-color: rgba(255, 255, 255, 0.7);
+.no-margin {
+    margin-top: 0;
+}
+
+.password-delete {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.margin-top {
+    margin-top: 30px;
+}
+
+.width {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-} */
+    padding-left: 0;
+    text-align: center;
+}
 
 .petition-div {
     background-color: rgba(255, 255, 255, 0.7);
-    /* width: 100%; */
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
-    height: 100%;
 }
 
 .petition-div-item {
     background-color: rgba(255, 255, 255, 0.7);
-    /* padding: 30px; */
     width: 100%;
     margin-bottom: 30px;
-    /* margin-right: 30px; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -227,10 +251,12 @@ footer > div.container {
 
 .a {
     margin-right: 15px;
+    margin-bottom: 0;
 }
 
 .b {
     margin-left: 15px;
+    margin-bottom: 0;
 }
 
 .petition-div-mini {
@@ -239,13 +265,12 @@ footer > div.container {
 }
 
 .login-text {
-    margin-top: 130px;
-    margin-left: 150px;
-    /* margin-right: 60px; */
     width: 700px;
     height: 400px;
     background-color: rgba(255, 255, 255, 0.2);
-    /* height: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-content {
@@ -268,17 +293,14 @@ footer > div.container {
     background-image: url("wallpaper2.jpg");
     background-attachment: fixed;
     background-size: cover;
-    min-height: 100vh;
     display: flex;
     flex-direction: row-reverse;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .register-div {
-    margin: 80px 150px;
     width: 450px;
-    /* display: flex;
-    flex-direction: column; */
-    /* height: 1200px; */
 }
 
 #logo {
@@ -295,6 +317,19 @@ footer > div.container {
     text-decoration: none;
     font-size: 1.5em;
     margin-left: 30px;
+}
+.delete-user-font {
+    font-family: "Roboto", sans-serif;
+    color: antiquewhite;
+    text-decoration: none;
+    font-size: 1.4em;
+    margin-left: 30px;
+}
+.delete-font {
+    font-family: "Roboto", sans-serif;
+    color: antiquewhite;
+    text-decoration: none;
+    font-size: 1.5em;
 }
 .edit-font {
     font-family: "Roboto", sans-serif;
@@ -319,7 +354,7 @@ footer > div.container {
 
 .form {
     border: 1px solid black;
-    padding: 80px 0;
+    padding: 40px 0;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -361,11 +396,17 @@ footer > div.container {
 }
 
 .error {
-    padding: 0 150px;
+    position: absolute;
+    width: 100%;
+    top: 70px;
+    height: 30px;
     background-color: #af2c3e;
 }
 .good {
-    padding: 0 150px;
+    position: absolute;
+    width: 100%;
+    top: 70px;
+    height: 30px;
     background-color: green;
 }
 
@@ -378,6 +419,7 @@ footer > div.container {
     text-align: right;
     margin: 0;
     padding: 5px 0;
+    padding-right: 150px;
 }
 
 .input-login {
