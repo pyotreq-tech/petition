@@ -60,28 +60,30 @@ module.exports.getSignaturesCity = (city) => {
 };
 
 module.exports.getImageUrl = (cookie) => {
-    return db.query(`SELECT signature FROM signatures WHERE id = ${cookie} `);
+    return db.query(`SELECT signature FROM signatures WHERE id = $1`, [cookie]);
 };
 
 module.exports.getIfSignature = (id) => {
-    return db.query(`SELECT * FROM signatures WHERE userid IN
-    (SELECT id FROM users WHERE id = ${id})`);
+    return db.query(
+        `SELECT * FROM signatures WHERE userid IN
+    (SELECT id FROM users WHERE id = $1)`,
+        [id]
+    );
 };
 
 exports.getUserData = (email) => {
-    return db.query(`SELECT * FROM users WHERE email = '${email}' `);
+    return db.query(`SELECT * FROM users WHERE email = $1`, [email]);
 };
 
 exports.updateUsers = (id, first, last, email) => {
-    return db.query(`UPDATE users SET first = '${first}' WHERE id = '${id}' ;
-    UPDATE users SET last = '${last}' WHERE id = '${id}';
-    UPDATE users SET email = '${email}' WHERE id = '${id}';
-    `);
+    return db.query(
+        `UPDATE users SET first = $2, last = $3, email = $4 WHERE id = $1`,
+        [id, first, last, email]
+    );
 };
 
 exports.updateUserPassword = (id, hash) => {
-    return db.query(`UPDATE users SET password = '${hash}' WHERE id = '${id}' ;
-    `);
+    return db.query(`UPDATE users SET password = $2 WHERE id = $1`, [id, hash]);
 };
 
 exports.upsertUsers = (age, city, url, userid) => {

@@ -29,8 +29,5 @@
 --     userid INT NOT NULL UNIQUE REFERENCES users(id) ON DELETE CASCADE
 -- );
 
-
-
-
 -- UPDATE users SET admin = 'true' WHERE id = 1;
 

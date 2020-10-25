@@ -9,6 +9,8 @@ const methodOverride = require("method-override");
 // setting cookies
 // it's secure because you cannot fake them, but you can decode the values in dev tools
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
+
 // const { hash } = require("bcryptjs");
 //
 app.use(methodOverride("_method"));
@@ -89,6 +91,14 @@ app.use(
     })
 );
 //
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.locals.csrfToken = req.csrfToken();
+    res.set("x-frame-options", "DENY");
+    next();
+});
 
 app.use(express.static("./public"));
 app.get("/", isLoggedOut, (req, res) => {

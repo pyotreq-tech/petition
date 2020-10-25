@@ -16,7 +16,7 @@
         <input name="emailAddress" class="input-register">
         <label for ="password">Password</label>
         <input name="password" type="password" class="input-register">
-
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <button class="button-login">Submit</button>
 
         <span>Already a member? <br><a href="/login" class="link-login">Sign up now</a></span>

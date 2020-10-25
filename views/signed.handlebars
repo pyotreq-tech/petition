@@ -9,7 +9,11 @@
         <h2 class="petition-font">Thank you for signing our petition.</h1>
         User.id: {{user.signatureId}}
         <img src="{{imgUrl}}">
-        <form id="delete-form" action="/signers/delete/{{user.signatureId}}?_method=DELETE" method="POST"><button id="deleteButton">X</button></form>
+        <form id="delete-form" action="/signers/delete/{{user.signatureId}}?_method=DELETE" method="POST">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <button id="deleteButton">X</button>
+        
+        </form>
 
         
         <p class="petition-p">Great job! If we collect enough signatures, all the dreams in the world will became true. What are you waiting for? Make a wish now! It will soon become real!</p>

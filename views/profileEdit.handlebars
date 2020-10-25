@@ -37,6 +37,7 @@
             <input name="homePage" value="{{user.url}}" class="edit-right">
         </div>
         <div class="edit-separator-button">
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <input type="submit" class="edit-left navbar-font" value="UPDATE DETAILS" id="update-button">
         </div>
 
