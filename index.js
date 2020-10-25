@@ -34,12 +34,9 @@ const validator = (age, homePage) => {
     if (isNaN(age)) {
         empty = "Please use digits to specify your age";
         return empty;
-    } else if (age <= 0) {
+    } else if (age < 0) {
         if (age < -99) {
             empty = `Do you remember last Ice Age?`;
-            return empty;
-        } else if (age == 0) {
-            empty = `Welcome to this world`;
             return empty;
         } else {
             empty = `Come back to us in ${age.slice(1)} years`;
@@ -229,7 +226,7 @@ app.post("/register", isLoggedOut, (req, res) => {
             });
     } else {
         res.render("register", {
-            empty: "Please fill all the necessary fields",
+            empty: "All fields are required",
         });
     }
 });

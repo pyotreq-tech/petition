@@ -47,7 +47,7 @@ footer > div.container {
     background-attachment: fixed;
     background-size: cover;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
 }
@@ -246,7 +246,7 @@ footer > div.container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: top;
 }
 
 .a {
@@ -264,10 +264,24 @@ footer > div.container {
     flex-direction: row;
 }
 
-.login-text {
+.register-text {
+    border: 1px black solid;
     width: 700px;
-    height: 400px;
-    background-color: rgba(255, 255, 255, 0.2);
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.white {
+    color: white;
+}
+.login-text {
+    border: 1px black solid;
+    width: 700px;
+    height: 150px;
+    background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -278,6 +292,13 @@ footer > div.container {
     font-size: 1.5em;
     font-family: "Roboto", sans-serif;
     color: black;
+    margin: 50px;
+}
+.login-content-white {
+    font-weight: 300;
+    font-size: 1.5em;
+    font-family: "Roboto", sans-serif;
+    color: white;
     margin: 50px;
 }
 .signers-content {
@@ -342,6 +363,13 @@ footer > div.container {
     color: black;
     text-decoration: none;
     font-size: 1.5em;
+    /* margin-left: 30px; */
+}
+.petition-font-left {
+    font-family: "Roboto", sans-serif;
+    color: black;
+    text-decoration: none;
+    font-size: 1.5em;
     margin-left: 30px;
 }
 .petition-font-big {
@@ -353,6 +381,7 @@ footer > div.container {
 }
 
 .form {
+    background-color: rgba(0, 0, 0, 0.4);
     border: 1px solid black;
     padding: 40px 0;
     margin: 0;
@@ -364,6 +393,8 @@ footer > div.container {
 }
 .form-register {
     border: 1px solid black;
+    background-color: rgba(255, 255, 255, 0.4);
+
     padding: 25px 0;
     margin: 0;
     display: flex;
@@ -385,7 +416,7 @@ footer > div.container {
     color: black;
     text-decoration: none;
     font-size: 1.7em;
-    font-weight: 100;
+    font-weight: 300;
 }
 .font-black-signed {
     font-family: "Roboto", sans-serif;
