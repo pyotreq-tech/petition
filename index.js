@@ -1,5 +1,7 @@
 const express = require("express");
+// const helmet = require("helmet");
 const app = (exports.app = express());
+// app.use(helmet());
 // const app = express();
 const handlebars = require("express-handlebars");
 const db = require("./db");
@@ -30,10 +32,21 @@ const signatureCheck = (req, res, next) => {
 const validator = (age, homePage) => {
     let empty;
     if (isNaN(age)) {
-        empty = "You have to use a number";
+        empty = "Please use digits to specify your age";
         return empty;
-    } else if (age < 0) {
-        empty = "Sorry but your age cannot be under zero";
+    } else if (age <= 0) {
+        if (age < -99) {
+            empty = `Do you remember last Ice Age?`;
+            return empty;
+        } else if (age == 0) {
+            empty = `Welcome to this world`;
+            return empty;
+        } else {
+            empty = `Come back to us in ${age.slice(1)} years`;
+            return empty;
+        }
+    } else if (age > 99) {
+        empty = "Sorry but you are too old for this";
         return empty;
     } else if (homePage) {
         if (
@@ -85,8 +98,8 @@ app.set("view engine", "handlebars");
 // config for cookies
 app.use(
     cookieSession({
-        name: "session",
-        secret: "I am so hungry!",
+        name: "r2d2",
+        secret: "c3po",
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );

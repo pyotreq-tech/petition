@@ -53,7 +53,7 @@ module.exports.getSignaturesCity = (city) => {
 
     ON signatures.userid = user_profiles.userid
 
-    WHERE city = $1;
+    WHERE LOWER(city) = LOWER($1);
     `,
         [city]
     );
@@ -72,7 +72,9 @@ module.exports.getIfSignature = (id) => {
 };
 
 exports.getUserData = (email) => {
-    return db.query(`SELECT * FROM users WHERE email = $1`, [email]);
+    return db.query(`SELECT * FROM users WHERE LOWER(email) = LOWER($1)`, [
+        email,
+    ]);
 };
 
 exports.updateUsers = (id, first, last, email) => {
