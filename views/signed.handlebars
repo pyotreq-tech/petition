@@ -6,7 +6,7 @@
     <div class="petition-container-right">
         <div class="petition-div">
         
-        <h2 class="petition-font">Thank you for signing our petition</h1>
+        <h2 class="petition-font">Thank you for signing our petition</h2>
         <img src="{{imgUrl}}">
         <form id="delete-form" action="/signers/delete/{{user.signatureId}}?_method=DELETE" method="POST">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
@@ -17,7 +17,7 @@
         
         <p class="petition-p">Great job! If we collect enough signatures, all the dreams in the world will became true. What are you waiting for? Make a wish now! It will soon become real!</p>
 
-        <a href="/signers" class="link-login form-font">See all {{rows.[0].count}} other dreamers.</a>
+        <a href="/signers" class="link-login"><h2 class="petition-font-left">There are {{rows.[0].count}} others who think the same!</h2></a>
 
    </div>
 </div>

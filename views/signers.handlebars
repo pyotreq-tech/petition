@@ -1,28 +1,35 @@
 <div class="petition-container">
-
     {{>content}}
-
         <div class="petition-container-right">
-        <div class="petition-div">
-        
-        <h1 class="signers-content">We demand that all the wishes in the world whould become true immediately! </h1>
+        <div class="petition-div-item">
+        <h2 class="petition-font-left">Our little movement is growing each day. Here is the list of generous supporters:</h2>
+        </div>
 
         {{#rows}}
-        <div class="list-item">
-
+        <div class="petition-div-item-display">
 
         {{#if url}}
-        <a href="{{url}}" target="_blank" >{{first}} {{last}} </a>
+            <div class="petition-div-item-display-item link">
+                <a href="{{url}}" target="_blank" class="petition-p-signers-link" >{{first}} {{last}} </a>
+            </div>
+
         {{else}}
-        {{first}} {{last}}
+            <div class="petition-div-item-display-item">        
+                <span class="petition-p-signers">{{first}} {{last}}</span>
+            </div>
         {{/if}}
         
 
         {{#if age}}
-        | {{age}} 
+            <div class="petition-div-item-display-item">
+                 <span class="petition-p-signers">{{age}} </span>                
+            </div>
         {{/if}}
         {{#if city}}
-        | <a href="/signers/{{city}}">{{city}}</a> 
+            <div class="petition-div-item-display-item link">
+                <a href="/signers/{{city}}" class="petition-p-signers-link">{{city}}</a> 
+            </div>
+        
         {{/if}}
 
 
@@ -33,28 +40,5 @@
         {{/if}}
         </div>
         {{/rows}}
-
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-        <div class="list-item">Piotr Majtyka</div>
-</div>
-
-    </div>
+        </div>
 </div>
