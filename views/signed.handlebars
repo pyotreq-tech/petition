@@ -4,20 +4,29 @@
     {{>content}}
 
     <div class="petition-container-right">
-        <div class="petition-div">
-        
-        <h2 class="petition-font">Thank you for signing our petition</h2>
-        <img src="{{imgUrl}}">
+        <div class="petition-div-item">
+            <h2 class="petition-font-left">Thank you for signing our petition</h2>
+            <img src="{{imgUrl}}" id="petition-img">
         <form id="delete-form" action="/signers/delete/{{user.signatureId}}?_method=DELETE" method="POST">
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <button id="deleteButton">X</button>
-        
+        <input type="submit" id="deleteButton" value="(unsign)">
         </form>
+        </div>
+
+        <div class="petition-div-item">
+        <span class="petition-p padding-b">Great job! If we collect enough signatures, all the dreams in the world will became true. What are you waiting for? Make a wish now! It will soon become real!</span>
+
+        </div>
+
+        <div class="petition-div-item link">
+
+
+        <a href="/signers" class="link-login"><h2 class="petition-font-left">There are {{rows.[0].count}} others who think the same! Check them out.</h2></a>
+        </div>
 
         
-        <p class="petition-p">Great job! If we collect enough signatures, all the dreams in the world will became true. What are you waiting for? Make a wish now! It will soon become real!</p>
 
-        <a href="/signers" class="link-login"><h2 class="petition-font-left">There are {{rows.[0].count}} others who think the same!</h2></a>
+        
 
    </div>
 </div>

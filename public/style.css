@@ -9,6 +9,7 @@ body {
 canvas {
     border: 1px black solid;
     display: block;
+    margin: 30px 0;
 }
 button {
     display: block;
@@ -18,8 +19,18 @@ form {
     display: inline-block;
 }
 
+#petition-img {
+    margin-top: 30px;
+}
+
 #deleteButton {
-    background-color: firebrick;
+    /* background-color: none; */
+    border: none;
+    outline: none;
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    font-family: "Roboto", sans-serif;
+    margin: 30px 0;
 }
 
 navbar > div.container {
@@ -212,6 +223,12 @@ footer > div.container {
     text-decoration: none;
     font-size: 1em;
 }
+
+.padding-b {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
 .petition-p-signers {
     font-family: "Roboto", sans-serif;
     color: black;

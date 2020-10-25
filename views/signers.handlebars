@@ -1,8 +1,8 @@
 <div class="petition-container">
     {{>content}}
-        <div class="petition-container-right">
+    <div class="petition-container-right">
         <div class="petition-div-item">
-        <h2 class="petition-font-left">Our little movement is growing each day. Here is the list of generous supporters:</h2>
+            <h2 class="petition-font-left">Our little movement is growing each day. Here is the list of generous supporters:</h2>
         </div>
 
         {{#rows}}
@@ -18,27 +18,29 @@
                 <span class="petition-p-signers">{{first}} {{last}}</span>
             </div>
         {{/if}}
-        
+            
 
         {{#if age}}
             <div class="petition-div-item-display-item">
-                 <span class="petition-p-signers">{{age}} </span>                
+                <span class="petition-p-signers">{{age}} </span>                
             </div>
         {{/if}}
         {{#if city}}
             <div class="petition-div-item-display-item link">
                 <a href="/signers/{{city}}" class="petition-p-signers-link">{{city}}</a> 
             </div>
-        
+            
         {{/if}}
-
-
-
-
         {{#if ../user.admin}}
-        <form id="delete-form" action="/signers/delete/{{id}}?_method=DELETE" method="POST"><button id="deleteButton">X</button></form>
+
+
+        {{!-- <form action="/signers/delete/{{id}}?_method=DELETE" method="POST">
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <input type="submit" value="X">
+        </form> --}}
+
         {{/if}}
         </div>
         {{/rows}}
-        </div>
+    </div>
 </div>

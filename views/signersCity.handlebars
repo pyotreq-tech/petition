@@ -33,12 +33,6 @@
                  <span class="petition-p-signers">{{age}} </span>                
             </div>
         {{/if}}
-
-
-
-        {{#if ../user.admin}}
-        <form id="delete-form" action="/signers/delete/{{id}}?_method=DELETE" method="POST"><button id="deleteButton">X</button></form>
-        {{/if}}
         </div>
         {{/rows}}
 </div>
