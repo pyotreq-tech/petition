@@ -43,7 +43,7 @@ const validator = (age, homePage) => {
             return empty;
         }
     } else if (age > 99) {
-        empty = "Sorry but you are too old for this";
+        empty = "Did you lost your false teeth grandpa?";
         return empty;
     } else if (homePage) {
         if (
@@ -54,7 +54,7 @@ const validator = (age, homePage) => {
                 empty = "Please add http:// or https:// to your e-mail address";
                 return empty;
             }
-            empty = "Please start e-mail with http:// or https://";
+            empty = "Please start your url with http:// or https://";
             return empty;
         }
     }
@@ -141,7 +141,7 @@ app.post("/login", isLoggedOut, (req, res) => {
                                 res.redirect("/petition");
                             } else {
                                 res.render("login", {
-                                    empty: "Invalid login or password.",
+                                    empty: "Invalid login or password",
                                 });
                             }
                         })
@@ -154,7 +154,7 @@ app.post("/login", isLoggedOut, (req, res) => {
                         });
                 } else {
                     res.render("login", {
-                        empty: "E-mail address is not in db.",
+                        empty: "E-mail address does not exist in database",
                     });
                 }
             })
@@ -566,7 +566,7 @@ app.post("/profile/edit", (req, res) => {
                             res.render("profileEdit", {
                                 isLoggedIn: true,
                                 user,
-                                empty: "Internal error while updating database",
+                                empty: "We need to know this about you",
                             });
                         });
                 } else {

@@ -5,14 +5,9 @@
     <div class="petition-container-right">
         <div class="petition-div">
                 
-                <h2 class="petition-font">Sign petition and free Snooki</h2>
+                <h2 class="petition-font">Sign petition</h2>
 
-                <span class="petition-p">Exactly, pick up your favourite color and let's change the world forever!</span>
-                <canvas id="canvas" width="350px" height="100px"></canvas>
-
-                <form method="POST">
-                {{!-- Make the input fields receive only letters --}}
-                <input name="signature" type="hidden">
+                <span class="petition-p">Exactly, grab some style by picking up your favourite color and favourite size and let's change the world forever!</span>
                 <div class="colors">
                     <div class="color border" id="BLACK"></div>
                     <div class="color" id="CHARTREUSE"></div>
@@ -27,6 +22,11 @@
                     <div class="brush" id="large"></div>
                     <i class="fas fa-eraser" id="clean"></i>
                 </div>
+                <canvas id="canvas" width="350px" height="100px"></canvas>
+
+                <form method="POST" id="sign-petition">
+                {{!-- Make the input fields receive only letters --}}
+                <input name="signature" type="hidden">
                 <input type="hidden" name="_csrf" value="{{csrfToken}}">
                 <button class="button-sign-petition">Sign petition</button>
                 </form>
